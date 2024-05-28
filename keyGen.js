@@ -2,7 +2,7 @@ const { generateKeyPairSync } = require("crypto");
 const fs = require("fs");
 
 
-let passphrase = "!Qsuzik#2w3e4r$T+/-5y6u7~@i8O9p0";
+let passphrase = process.env.passphrase;
 
 const { publicKey, privateKey } = generateKeyPairSync("rsa", {
   modulusLength: 2048,

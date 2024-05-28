@@ -32,8 +32,8 @@ app.post("/", async (req, res) => {
 
 const createRSA = (passphrase) => {
   // Define filenames for the keys
-  const publicKeyFile = "public_key.pem";
-  const privateKeyFile = "private_key.pem";
+  const publicKeyFile = "public_key_route.pem";
+  const privateKeyFile = "private_key_route.pem";
 
   const { publicKey, privateKey } = generateKeyPairSync("rsa", {
     modulusLength: 2048,
