@@ -6,7 +6,7 @@ const crypto = require("crypto");
 const port = process.env.PORT || 4002;
 const passPhrase = process.env.PASSPHRASE;
 
-app.post("/", async (req, res) => {
+app.post("api/pem_gen", async (req, res) => {
   try {
     const { message } = req.body;
     if (!message) return res.status(400).json({ msg: "No message found" });
