@@ -1,32 +1,42 @@
 require("dotenv").config();
-const app = require("express")();
+const express = require("express");
 const { generateKeyPairSync } = require("crypto");
+const fs = require("fs");
 const crypto = require("crypto");
+
+const app = express();
 
 const port = process.env.PORT || 4002;
 const passPhrase = process.env.PASSPHRASE;
 
-app.post("api/pem_gen", async (req, res) => {
+app.use(express.json());
+
+app.post("/api/pem_gen", async (req, res) => {
   try {
     const { message } = req.body;
-    if (!message) return res.status(400).json({ msg: "No message found" });
+
+    if (!message) return res.status(400).json({ msg: "Message is required" });
 
     const { privateKey, publicKey } = createRSA(passPhrase);
 
     const encryptedMsg = crypto
       .publicEncrypt(publicKey, Buffer.from(message))
       .toString("base64");
-    
+
     // Sign the message
     const sign = crypto.createSign("SHA256");
     sign.update(encryptedMsg);
     sign.end();
 
-    const signature = sign.sign({ privateKey, passPhrase }, "base64");
+    const signature = sign.sign(
+      { key: privateKey, passphrase: passPhrase },
+      "base64"
+    );
 
     return res.status(200).json({ msg: "Successfully signed", signature });
   } catch (error) {
     console.log(error.message);
+    return res.status(500).json({ msg: "Internal Server Error" });
   }
 });
 
@@ -71,5 +81,5 @@ const createRSA = (passphrase) => {
 };
 
 app.listen(port, () =>
-  console.log(`Server running on port http://127.0.0.1:${port}`)
+  console.log(`Server running on port http://127.0.1:${port}/api/pem_gen`)
 );
