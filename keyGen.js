@@ -10,6 +10,7 @@ const { publicKey, privateKey } = generateKeyPairSync("rsa", {
     type: "spki",
     format: "pem",
   },
+  // encrypts the private key using the aes-256-cbc cipher with the passphrase specified in process.env.passphrase.
   privateKeyEncoding: {
     type: "pkcs8",
     format: "pem",
