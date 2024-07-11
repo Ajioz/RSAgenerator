@@ -1,5 +1,6 @@
 private_key.pem
 public_key.pem
+decrypted_private_key.pem
 env
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
